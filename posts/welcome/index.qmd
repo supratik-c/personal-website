@@ -1,0 +1,9 @@
+---
+title: "A New Adventure..."
+author: "Supratik C"
+date: "2023-01-03"
+categories: [news]
+image: cover.png
+---
+
+Hello, and welcome to my website!

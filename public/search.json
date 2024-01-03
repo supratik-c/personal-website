@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "A New Adventure…",
+    "section": "",
+    "text": "Hello, and welcome to my website!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "The R programming language\n\n\n\n\n\n\n\ncode\n\n\n\n\n\n\n\n\n\n\n\nJan 4, 2023\n\n\nSupratik C\n\n\n\n\n\n\n  \n\n\n\n\nA New Adventure…\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nJan 3, 2023\n\n\nSupratik C\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hello!\nI am Supratik, a Principal Data Scientist working in the UK Public Sector!\nFollow me here for all things R, Python, Data Engineering & Data Science!"
+  },
+  {
+    "objectID": "posts/code-execution/index.html",
+    "href": "posts/code-execution/index.html",
+    "title": "The R programming language",
+    "section": "",
+    "text": "A Language for Data\nIn the world of analytics, statistics, and data science, two languages currently reign supreme: R and Python.\nBoth service a largely overlapping niche - people who want to move, manipulate, join and explore data. Python, of course, has far wider ranging applications from application/ web development to automation and R can be used for these things too! But R is one of the first languages developed primarily for mathematical, statistical and (later) machine learning applications.\nThis post will give a basic overview of this language, including some common libraries all data scientists will benefit from having in their toolkit.\n\nprint(\"Hello, World!\")\n\n[1] \"Hello, World!\""
+  }
+]

@@ -1,0 +1,19 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+# Hello!
+
+I am Supratik, a Principal Data Scientist working in the UK Public Sector!
+
+Follow me here for all things R, Python, Data Engineering & Data Science!

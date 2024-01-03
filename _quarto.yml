@@ -1,0 +1,19 @@
+project:
+  type: website
+  output-dir: public
+website:
+  title: "> SupratikChowdhury <"
+  navbar:
+    right:
+      - about.qmd
+      - icon: linkedin
+        href: https://www.linkedin.com/in/supratik-chowdhury/
+      - icon: github
+        href: https://github.com/supratik-c
+format:
+  html:
+    theme: 
+      light: yeti
+      dark: solar
+    css: styles.css
+editor: visual
