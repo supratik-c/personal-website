@@ -2,7 +2,8 @@ project:
   type: website
   output-dir: public
 website:
-  title: "> SupratikChowdhury <"
+  title: ">SupratikChowdhury<"
+  favicon: favi.png
   navbar:
     right:
       - about.qmd

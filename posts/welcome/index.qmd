@@ -7,3 +7,5 @@ image: cover.png
 ---
 
 Hello, and welcome to my website!
+
+I'm Supratik, a Principal Data Scientist, coder, and keen data advocate. This site houses my thoughts on the latest and greatest developments in Statistics, Machine Learning, Data Engineering and Data Science.
