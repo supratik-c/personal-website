@@ -1,1 +1,84 @@
-/* css styles */
+/* Reactable light/dark mode styles */
+.quarto-light .rt-table {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #e1e1e1;
+}
+
+.quarto-dark .rt-table {
+    background-color: #002B36;  /* Solar background color */
+    color: #839496;  /* Solar default text color */
+    border: 1px solid #073642;  /* Solar darker accent */
+}
+
+/* Header styles */
+.quarto-light .rt-thead {
+    background-color: #f5f5f5;
+    color: #333333;
+    border-bottom: 2px solid #e1e1e1;
+}
+
+.quarto-dark .rt-thead {
+    background-color: #073642;  /* Solar darker accent */
+    color: #93A1A1;  /* Solar emphasized content */
+    border-bottom: 2px solid #094652;
+}
+
+/* Row styles */
+.quarto-light .rt-tr-group {
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.quarto-dark .rt-tr-group {
+    border-bottom: 1px solid #073642;  /* Solar darker accent */
+}
+
+/* Striped rows */
+.quarto-light .rt-tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.quarto-dark .rt-tr:nth-child(even) {
+    background-color: #073642;  /* Solar darker accent */
+}
+
+
+/* Pagination controls in dark mode */
+.quarto-dark .rt-pagination {
+    background-color: #002B36;  /* Solar background color */
+}
+
+.quarto-dark .rt-pagination-nav button {
+    color: #839496 !important;  /* Solar default text */
+    background-color: #073642;  /* Solar darker accent */
+}
+
+.quarto-dark .rt-pagination-numbers button {
+    color: #839496 !important;  /* Solar default text */
+    background-color: #073642;  /* Solar darker accent */
+}
+
+/* Pagination info text in dark mode */
+.quarto-dark .rt-pagination-info {
+    color: #839496 !important;  /* Solar default text */
+    background-color: #094652 !important;  /* Solar default text */
+}
+
+/* Active page button */
+.quarto-dark .rt-pagination-numbers button[aria-current="true"] {
+    background-color: #094652;  /* Slightly lighter than darker accent */
+    color: #93A1A1 !important;  /* Solar emphasized content */
+}
+
+/* Hover states */
+.quarto-dark .rt-pagination-nav button:hover,
+.quarto-dark .rt-pagination-numbers button:hover {
+    background-color: #094652;  /* Slightly lighter than darker accent */
+}
+
+/* Disabled buttons */
+.quarto-dark .rt-pagination-nav button:disabled,
+.quarto-dark .rt-pagination-numbers button:disabled {
+    color: #586e75 !important;  /* Solar secondary content */
+    background-color: #002B36;  /* Solar background */
+}

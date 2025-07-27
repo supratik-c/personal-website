@@ -2,7 +2,7 @@ project:
   type: website
   output-dir: public
 website:
-  title: ">SupratikChowdhury<"
+  title: ">_ SupratikC"
   favicon: favi.png
   navbar:
     right:

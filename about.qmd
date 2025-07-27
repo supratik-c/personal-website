@@ -14,6 +14,6 @@ about:
 
 # Hello!
 
-I am Supratik, a Principal Data Scientist working in the UK Public Sector!
+I am Supratik, a Lead Data Engineer working in the UK Public Sector!
 
 Follow me here for all things R, Python, Data Engineering & Data Science!

@@ -1,0 +1,325 @@
+---
+title: "**dplyr** in 15 minutes"
+author: "Supratik C"
+date: "2024-01-01"
+categories: [R]
+image: "R.png"
+toc: true
+toc-location: left
+toc-title: 'Contents'
+format:
+  html:
+    code-tools: true
+    df-print: kable
+---
+
+Hit the grounding running with a fast introduction to `dplyr`, the most used data transformation library for R.
+
+For the full picture, the [R for Data Science](https://r4ds.hadley.nz/intro) book is recommended, as well as the [dplyr package docs](https://dplyr.tidyverse.org/index.html).
+
+This post will cover eight main functions that cover the basics of data transformation:
+
+-   `select`
+-   `rename`
+-   `arrange`
+-   `distinct`
+-   `filter`
+-   `mutate`
+-   `summarise`
+-   `group by`
+
+We'll be using the `iris` dataset.
+
+```{r, include=FALSE}
+library(reactable)
+
+# Define global theme
+my_theme <- reactableTheme(
+  borderColor = "#ddd",
+  stripedColor = "rgba(0, 0, 0, 0.03)",
+  highlightColor = "rgba(0, 0, 0, 0.05)",
+  cellPadding = "8px"
+)
+
+# Create a function for consistent table formatting
+format_table <- function(data, ...) {
+  reactable(
+    data,
+    theme = my_theme,
+    defaultPageSize = 5,
+    striped = TRUE,
+    highlight = TRUE,
+    searchable = FALSE,
+    showSortIcon = TRUE,
+    filterable = FALSE,
+    ...  # allows passing additional arguments
+  )
+}
+
+# Set default options globally
+options(
+  reactable = list(
+    theme = my_theme,
+    defaultPageSize = 5,
+    striped = TRUE,
+    highlight = TRUE,
+    searchable = TRUE,
+    showSortIcon = TRUE
+  )
+)
+```
+
+```{r, echo=TRUE, message=FALSE}
+library(dplyr)
+
+iris <- datasets::iris
+
+# This is a custom function made using the 'reactable' R package.
+format_table(iris)
+```
+
+# Select
+
+`select` is used to **choose columns in our data.** `select` takes two inputs:
+
+-   A dataframe
+
+-   A comma-separated list of columns we want to select
+
+```{r}
+iris_petals <- select(iris, Petal.Length, Petal.Width)
+
+format_table(iris_petals)
+```
+
+Notice how the columns **don't have to be passed in as strings**. For interested readers, this is due to the the [`tidyselect`](https://tidyselect.r-lib.org/) utility package used under the hood. The details of the package are outside the scope of this article, but we will touch on one very useful utility it provides us across many of dplyr's functions - selection helpers.
+
+### Selection Helpers
+
+Imagine your dataset contains hundreds or thousands of columns. Manually typing out the columns we want to select would be tedious and error-prone. Selection helpers allow us to programmatically choose which columns to select based on set rules.
+
+We use them by passing them as input to the `.cols` parameter, in the `select` statement.
+
+Some common helpers are:
+
+-   `starts_with()`: Select columns that start with a pattern
+
+```{r}
+# Select all columns that start with "Petal"
+petal_cols <- select(iris, starts_with("Petal"))
+format_table(petal_cols)
+```
+
+-   `ends_with()`: Select columns that end with a pattern
+
+```{r}
+length_cols <- select(iris, ends_with("Length"))
+format_table(length_cols)
+```
+
+-   `contains()`: Select columns that contain a pattern
+
+```{r}
+# Select all columns that contain the word "Width"
+width_cols <- select(iris, contains("Width"))
+format_table(width_cols)
+```
+
+For a full list helpers, see the [Selection language documentation here](Selection%20language%20—%20language%20•%20tidyselect).
+
+------------------------------------------------------------------------
+
+# Renaming
+
+`rename` is used to **change column names**. It takes as input:
+
+-   A dataframe
+
+-   An expression of the form `new name = old name`
+
+Let's say we want to rename the Petal columns in `iris` to snake_case.
+
+```{r}
+iris_rename_petals <- rename(iris_petals, 
+                             petal_length = Petal.Length,
+                             petal_width = Petal.Width)
+format_table(iris_rename_petals)
+```
+
+We can see the two columns we selected in the `select` section, Petal.Length and Petal.Width have been renamed. Note that you can pass in **more than one rename expression**, by separating each expression with a comma. We can rename as many columns in one `rename` function as we want.
+
+### Renaming in Select
+
+We can also use `rename` semantics inside the `select` statement, to rename columns as we select. Notice how in the code below, all we have done is replace `rename` with `select`, but the results are exactly the same.
+
+```{r}
+iris_rename_petals <- select(iris_petals, 
+                             petal_length = Petal.Length,
+                             petal_width = Petal.Width)
+format_table(iris_rename_petals)
+```
+
+You might ask then - why should we use the `rename` function at all? Why not always just rename columns inside select? There are three reasons.
+
+1.  Improved readability. It's important that other people can look at your code and understand what it's doing, and this is easier to achieve when different actions (such as selecting and renaming) are separated out into their logical components.
+2.  Renaming programmtically using Selection Helpers. `rename` contains some additional inputs similar to `select` that let us choose multiple columns smartly.
+3.  Renaming programmatically using functions to apply transformations to the names directly.
+
+### Renaming Programmatically
+
+Let's say we want to convert all columns with "Petal" or "Sepal" in the name to snake_case. We can use a version of `rename` called `rename with` that takes two additional inputs:
+
+-   `.fn` lets us a specify a function to apply to the current name to get the new name. In this case we will use the snakecase package, which contains the `to_snake_case` function for converting strings to snake case.
+
+-   `.cols` to pass in our selection helpers. In this case, we will use `contains` and pass in a vector of two inputs using `c()`.
+
+```{r}
+# Load the snakecase library
+library(snakecase)
+
+iris_renamed <- rename_with(iris,
+                       .fn = to_snake_case,
+                       .cols = contains(c("Petal", "Sepal")))
+
+format_table(iris_renamed)
+```
+
+You can see the Sepal and Petal columns have been converted to snake case, with Species untouched.
+
+> **Note**
+>
+> In general, converting to snake_case is something that would be applied to all columns in a dataframe at once for consistency. This is easily done using the `clean_names` function from the [janitor package](https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html).
+
+# Filter
+
+`filter` is used to **filter out rows in a dataframe.** It takes two main inputs:
+
+-   A dataframe
+
+-   An expression that is evaluated against all rows in the dataframe. Rows that resolve to TRUE are kept.
+
+The simplest use is when when we just want to filter on one row to isolate some data. Let's say we want to just look at flowers in iris that have a Sepal Length above 6:
+
+```{r}
+iris_large_sepals <- filter(iris, Sepal.Length > 6)
+
+format_table(iris_large_sepals)
+```
+
+### Filtering - Combing Expressions
+
+We can combine rules together into more complex expressions using R's boolean operators, such as:
+
+-   'and' `&`
+
+-   'not' `!`
+
+-   'equals' `==`
+
+-   'or' `|`.
+
+There are also a number of helper expressions for working with text and numbers that evaluate to TRUE/ FALSE, such as:
+
+-   `between` - for checking if numbers fall into a specific range
+
+-   `%in%` - for checking if text values are part of
+
+Let's say we want a more specific filter that look specifically for:
+
+-   The `versicolor` and `setosa` species - using `%in%`
+
+-   Petal Lengths less than 2, or more than 4 - using `|`
+
+-   Sepal Widths between 3 and 4 - using the `between` expression
+
+```{r}
+iris_filtered <- filter(
+    iris,
+    Species %in% c('versicolor', 'setosa'),
+    Petal.Length < 2 | Petal.Length > 4,
+    between(Sepal.Width, 3, 4)
+)
+
+format_table(iris_filtered)
+```
+
+> **Note**
+>
+> Notice that we can pass in different expressions by just separating them with commas. `filter` treats this as equivalent to `&`, and will only include rows where *all* expressions are true.
+
+# Arrange
+
+`arrange` is used to reorder **rows based on a condition**. It takes two main inputs:
+
+-   A dataframe
+
+-   A comma-separated list of columns to sort by (in the order given)
+
+Let's say we want to look at the `iris` flowers in by increasing Petal Length, then Petal.Width
+
+```{r}
+iris_ordered <- arrange(iris, Petal.Length, Petal.Width)
+
+format_table(iris_ordered)
+```
+
+### Arranging by Descending
+
+By default, the columns passed to `arrange` will be arranged in ascending order. If we want things descending, we have to pass those columns in using the `desc()` function.
+
+```{r}
+iris_ordered <- arrange(iris, desc(Petal.Length), desc(Petal.Width))
+
+format_table(iris_ordered)
+```
+
+# Mutate
+
+`mutate` is used to create new columns from existing ones. It takes tow main inputs:
+
+-   A dataframe
+
+-   A comma-separated set of expressions of the form `new column = expression`
+
+The "expression" can contain mathematical logic, boolean expressions, or even use custom functions to transform data from existing columns.
+
+### Mutate - Mathematical Expressions
+
+The simplest mutation is just calculating a new value from an existing column. Let's say we want to convert Petal Lengths and Widths to mm from cm.
+
+```{r}
+iris_petals_converted <- mutate(
+    iris,
+    petal_length_mm = Petal.Length * 10,
+    petal_width_mm = Petal.Width * 10,
+    
+    # This parameter will ensure the output keeps columns that are not used in the mutate
+    .keep = 'unused'
+)
+
+format_table(iris_petals_converted)
+```
+
+### Mutate - Boolean Expressions
+
+# Summarise
+
+# Group By
+
+# The Pipe
+
+The pipe operator, `%>%`, allows us to **chain together functions**, saving a lot of repeated code and improving readability.
+
+It passes the output of the preceding function as the first input to the next one. This works well with most tidyverse functions as they take a dataframe as the first argument, allowing us to pass one dataframe through a chain of functions to make transformations one after another.
+
+Let's say we want to compare the average petal length of *setosa* species against all non-*setosa*. Using the pipe allows us to chain together the necessary functions into a single, clean, logical pipeline.
+
+```{r}
+average_petal_length <- iris %>% 
+  select(Petal.Length, Species) %>% 
+  mutate(setosa_flag = ifelse(Species == 'setosa', 'Setosa', 'Not Setosa')) %>% 
+  group_by(setosa_flag) %>% 
+  summarise(average_petal_length = mean(Petal.Length))
+
+average_petal_length
+```
