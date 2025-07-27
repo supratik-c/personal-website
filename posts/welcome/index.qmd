@@ -1,5 +1,5 @@
 ---
-title: "A New Adventure..."
+title: "Welcome!"
 author: "Supratik C"
 date: "2023-01-03"
 categories: [news]
@@ -8,4 +8,14 @@ image: cover.png
 
 Hello, and welcome to my website!
 
-I'm Supratik, a Principal Data Scientist, coder, and keen data advocate. This site houses my thoughts on the latest and greatest developments in Statistics, Machine Learning, Data Engineering and Data Science.
+I'm Supratik, a Lead Data Engineer, coder, and keen data advocate.
+
+I've had almost a decade in the data domain, spanning roles across multiple teams & departments in the UK Government, from Analytics to Data Science to Data Engineering.
+
+This site houses my thoughts on the latest and greatest developments in Statistics, Machine Learning, Data Engineering and Data Science.
+
+It may also house thoughts on maths, science, philosophy, books, articles, and all manner of media related to the above.
+
+For a sneak peek of the contents of this blog, have a look at:
+
+-   [The Quickest `dplyr` Intro - R](\posts\dplyr-intro\index.qmd)
